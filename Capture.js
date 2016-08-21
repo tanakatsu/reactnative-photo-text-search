@@ -12,17 +12,25 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
 
+var Loading = require('./Loading.js');
+
 class Capture extends Component {
   constructor(props) {
     super(props);
+    this.state = { isProcessing: false };
   }
 
   render() {
+    var loadingView;
+    if (this.state.isProcessing) {
+      loadingView = (<Loading text="Recognizing..." />)
+    } else {
+      loadingView = <View />;
+    }
     return (
       <View style={styles.container}>
         <Camera
@@ -36,6 +44,7 @@ class Capture extends Component {
           aspect={Camera.constants.Aspect.fill}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
         </Camera>
+        {loadingView}
       </View>
     );
   }
@@ -47,8 +56,11 @@ class Capture extends Component {
   }
 
   textRecognition(data) {
+    this.setState({ isProcessing: true });
+
     var self = this;
     this.sendFileToCloudVision(data.data, function(text) {
+      self.setState({ isProcessing: false }); // hide loading status before going to next view
       self.props.navigator.push({
         name: 'search',
         queryWord: text,
@@ -119,6 +131,11 @@ const styles = StyleSheet.create({
     color: '#000',
     padding: 10,
     margin: 40
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
   }
 });
 
