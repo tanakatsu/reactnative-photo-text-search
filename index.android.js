@@ -59,7 +59,6 @@ var RouteMapper = function(route, navigationOperations, onComponentRef) {
 class PhotoTextSearch extends Component {
   render() {
     var initialRoute = {name: 'capture'};
-    //var initialRoute = {name: 'search'};
     return (
       <Navigator
         style={styles.container}
