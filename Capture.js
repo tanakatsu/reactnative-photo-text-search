@@ -8,6 +8,7 @@
 'use strict';
 import React, { Component } from 'react';
 import {
+  Platform,
   AppRegistry,
   Dimensions,
   StyleSheet,
@@ -61,11 +62,19 @@ class Capture extends Component {
     var self = this;
     this.sendFileToCloudVision(data.data, function(text) {
       self.setState({ isProcessing: false }); // hide loading status before going to next view
-      self.props.navigator.push({
-        name: 'search',
-        queryWord: text,
-        title: ''
-      });
+      if (Platform.OS === 'ios') {
+        self.props.navigator.push({
+          component: require('./Search.js'),
+          title: '',
+          passProps: { queryWord: text }
+        });
+      } else {
+        self.props.navigator.push({
+          name: 'search',
+          queryWord: text,
+          title: ''
+        });
+      }
     });
   }
 

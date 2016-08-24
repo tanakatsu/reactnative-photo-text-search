@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
+    paddingTop: (Platform.OS === 'ios') ? 64 : 0
   },
   title: {
     fontSize: 24,
