@@ -66,7 +66,8 @@ class Capture extends Component {
         self.props.navigator.push({
           component: require('./Search.js'),
           title: '',
-          passProps: { queryWord: text }
+          passProps: { queryWord: text },
+          navigationBarHidden: false
         });
       } else {
         self.props.navigator.push({

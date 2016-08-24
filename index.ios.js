@@ -23,6 +23,7 @@ class PhotoTextSearch extends Component {
           component: Capture,
           title: 'Capture'
         }}
+        navigationBarHidden={true}
         style={styles.container}
       />
     );
