@@ -11,17 +11,32 @@ import {
 } from 'react-native';
 
 class Search extends Component {
+  // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
+  // propTypes and defaultProps are defined as properties on the constructor instead of in the class body.
+
   constructor(props) {
     super(props);
     this.state = { queryWord: props.queryWord };
   }
 
   render() {
+    var noTextMsg;
+    if (this.props.queryWord) {
+      noTextMsg = <Text></Text>;
+    } else {
+      noTextMsg = (
+        <Text style={styles.no_text}>
+          No text is recognized.
+        </Text>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
           Text recognition result
         </Text>
+        {noTextMsg}
         <TextInput style={styles.textInput}
           ref="inputtext"
           autoCorrect={false}
@@ -108,6 +123,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 20,
     backgroundColor: '#cccccc'
+  },
+  no_text: {
+    fontSize: 14,
+    color: 'red',
+    alignSelf: 'center'
   }
 });
 

@@ -62,6 +62,7 @@ class Capture extends Component {
     var self = this;
     this.sendFileToCloudVision(data.data, function(text) {
       self.setState({ isProcessing: false }); // hide loading status before going to next view
+
       if (Platform.OS === 'ios') {
         self.props.navigator.push({
           component: require('./Search.js'),
@@ -112,7 +113,10 @@ class Capture extends Component {
     .then((responseJson) => {
       console.log(responseJson);
 
-      var text = responseJson.responses[0].textAnnotations[0].description.replace("\n", "");
+      var text = null;
+      if (responseJson.responses[0].textAnnotations) {
+        text = responseJson.responses[0].textAnnotations[0].description.replace("\n", "");
+      }
       console.log('text=', text);
 
       callback(text);
