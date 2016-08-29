@@ -124,6 +124,8 @@ class Preview extends Component {
         <View style={styles.bottomBar}>
           <View style={styles.buttonContainer}>
             <TouchableHighlight style={styles.button}
+              activeOpacity={0.5}
+              underlayColor='#ccc'
               onPress={() => this.cancelRecognize()}
             >
               <Text style={styles.buttonText}>Cancel</Text>
@@ -132,6 +134,8 @@ class Preview extends Component {
           <View style={styles.buttonContainer}>
             <TouchableHighlight
               style={styles.button}
+              activeOpacity={0.5}
+              underlayColor='#ccc'
               onPress={() => this.startRecognize()}
             >
               <Text style={styles.buttonText}>Recognize</Text>
