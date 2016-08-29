@@ -18,6 +18,7 @@ import {
 import Camera from 'react-native-camera';
 
 var Loading = require('./Loading.js');
+var Preview = require('./Preview.js');
 
 class Capture extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Capture extends Component {
   render() {
     var loadingView;
     if (this.state.isProcessing) {
-      loadingView = (<Loading text="Recognizing..." />)
+      loadingView = (<Loading text="Capturing..." />)
     } else {
       loadingView = <View />;
     }
@@ -51,79 +52,28 @@ class Capture extends Component {
   }
 
   takePicture() {
+    this.setState({ isProcessing: true });
     this.camera.capture()
-      .then((data) => this.textRecognition(data))
+      .then((data) => this.dispPreview(data))
       .catch(err => console.error(err));
   }
 
-  textRecognition(data) {
-    this.setState({ isProcessing: true });
-
-    var self = this;
-    this.sendFileToCloudVision(data.data, function(text) {
-      self.setState({ isProcessing: false }); // hide loading status before going to next view
-
-      if (Platform.OS === 'ios') {
-        self.props.navigator.push({
-          component: require('./Search.js'),
-          title: '',
-          passProps: { queryWord: text },
-          navigationBarHidden: false
-        });
-      } else {
-        self.props.navigator.push({
-          name: 'search',
-          queryWord: text,
-          title: ''
-        });
-      }
-    });
-  }
-
-  sendFileToCloudVision(content, callback) {
-    var apiKey = require('./key.js').apiKey;
-    var CV_URL = "https://vision.googleapis.com/v1/images:annotate?key=" + apiKey;
-
-    console.log('data size=', content.length);
-    console.log('CV_URL=', CV_URL);
-
-    // Strip out the file prefix when you convert to json.
-    var request = {
-      requests: [{
-        image: {
-          content: content
-        },
-        features: [{
-          type: "TEXT_DETECTION",
-          maxResults: 200
-        }]
-      }]
-    };
-
-    console.log('Waiting for response from CloudVision..');
-    fetch(CV_URL, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request)
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-
-      var text = null;
-      if (responseJson.responses[0].textAnnotations) {
-        text = responseJson.responses[0].textAnnotations[0].description.replace("\n", "");
-      }
-      console.log('text=', text);
-
-      callback(text);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  dispPreview(data) {
+    this.setState({ isProcessing: false });
+    if (Platform.OS === 'ios') {
+      this.props.navigator.push({
+        component: require('./Preview.js'),
+        title: '',
+        passProps: { data: data },
+        navigationBarHidden: false
+      });
+    } else {
+      this.props.navigator.push({
+        name: 'preview',
+        data: data,
+        title: ''
+      });
+    }
   }
 }
 
@@ -145,13 +95,7 @@ const styles = StyleSheet.create({
     color: '#000',
     padding: 10,
     margin: 40
-  },
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
   }
 });
 
 module.exports = Capture;
-

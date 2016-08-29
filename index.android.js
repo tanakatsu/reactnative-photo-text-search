@@ -17,6 +17,7 @@ import {
 
 var Capture = require('./Capture.js');
 var Search = require('./Search.js');
+var Preview = require('./Preview.js');
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -51,6 +52,12 @@ var RouteMapper = function(route, navigationOperations, onComponentRef) {
             navigator={navigationOperations}
             queryWord={route.queryWord}
           />
+      </View>
+    );
+  } else if (route.name === 'preview') {
+    return (
+      <View style={{flex: 1}}>
+        <Preview navigator={navigationOperations} image={route.data} />
       </View>
     );
   }
