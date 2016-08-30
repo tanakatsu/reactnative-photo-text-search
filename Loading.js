@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     left: 0,
-    top: height / 2 - 40 - offset
+    top: height / 2 - 40 - offset,
+    backgroundColor: 'transparent'
   },
   title: {
     fontSize: 20,
