@@ -43,7 +43,7 @@ class Capture extends Component {
           captureTarget={Camera.constants.CaptureTarget.memory}
           type={Camera.constants.Type.back}
           captureAudio={false}
-          captureQuality={Camera.constants.CaptureQuality.low}
+          captureQuality={Camera.constants.CaptureQuality.medium}
           aspect={Camera.constants.Aspect.fill}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
         </Camera>
