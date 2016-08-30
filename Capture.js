@@ -64,7 +64,7 @@ class Capture extends Component {
       this.props.navigator.push({
         component: require('./Preview.js'),
         title: '',
-        passProps: { data: data },
+        passProps: { image: data },
         navigationBarHidden: false
       });
     } else {
