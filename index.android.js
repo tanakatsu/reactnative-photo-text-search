@@ -71,7 +71,7 @@ class PhotoTextSearch extends Component {
         style={styles.container}
         initialRoute={initialRoute}
         renderScene={RouteMapper}
-        configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+        configureScene={() => Navigator.SceneConfigs.FloatFromBottom}
       />
     );
   }
