@@ -4,7 +4,7 @@
 
 Recognize text in taken photo and search it on Google or Amazon.
 
-### Requiremets
+### Requirements
 
 - react-native
 	- [https://facebook.github.io/react-native/docs/getting-started.html](https://facebook.github.io/react-native/docs/getting-started.html)
